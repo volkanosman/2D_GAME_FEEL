@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    //this action is the delegate(a reference type variable that holds a reference to a method) that observers will subscribe to.
+    public static Action OnShoot;
+
     public Transform BulletSpawnPoint => _bulletSpawnPoint;
 
     [SerializeField] private Transform _bulletSpawnPoint;
@@ -18,20 +22,37 @@ public class Gun : MonoBehaviour
         Shoot();
         RotateGun();
     }
+    private void OnEnable()
+    {   
+        OnShoot += ShootProjectile; 
+        OnShoot += ResetLastFireTime;
+
+    }
+
+    private void OnDisable()
+    {
+        OnShoot -= ShootProjectile;
+        OnShoot -= ResetLastFireTime;
+    }
 
     private void Shoot()
     {
-        if (Input.GetMouseButton(0) && Time.time >= _lastFireTime) {
-            ShootProjectile();
-            RotateGun();
+        if (Input.GetMouseButton(0) && Time.time >= _lastFireTime)
+        {
+            OnShoot?.Invoke();// ? conditional operetor is used to prevent running into null exceptions.           
         }
     }
 
     private void ShootProjectile()
     {
-        _lastFireTime = Time.time + _gunFireCD;
+        
         Bullet newBullet = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, Quaternion.identity);
         newBullet.Init(_bulletSpawnPoint.position, _mousePos);        
+    }
+
+    private void ResetLastFireTime()
+    {
+        _lastFireTime = Time.time + _gunFireCD;
     }
 
     private void RotateGun()
