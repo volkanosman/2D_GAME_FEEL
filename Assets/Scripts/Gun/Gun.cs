@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using Cinemachine;
 
 public class Gun : MonoBehaviour
 {
@@ -20,10 +21,11 @@ public class Gun : MonoBehaviour
     private ObjectPool<Bullet> _bulletPool;
 
     private Animator _animator;
-
+    private CinemachineImpulseSource _impulseSource;
     private void Awake()
     {
         _animator = GetComponent<Animator>();   
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
@@ -41,6 +43,7 @@ public class Gun : MonoBehaviour
         OnShoot += ShootProjectile; 
         OnShoot += ResetLastFireTime;
         OnShoot += FireAnimation;
+        OnShoot += GunScreenShake;
     }
 
     private void OnDisable()
@@ -48,6 +51,7 @@ public class Gun : MonoBehaviour
         OnShoot -= ShootProjectile;
         OnShoot -= ResetLastFireTime;
         OnShoot -= FireAnimation;
+        OnShoot -= GunScreenShake;
     }
     public void ReleaseBulletFromPool(Bullet bullet)
     {
@@ -77,7 +81,10 @@ public class Gun : MonoBehaviour
     {
         _lastFireTime = Time.time + _gunFireCD;
     }
-
+    private void GunScreenShake()
+    {
+        _impulseSource.GenerateImpulse();
+    }
     private void RotateGun()
     {
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
