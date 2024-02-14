@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pipe (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6917474411122021371, guid: 0d64b30c2f7eb114ebc7b8386238bbcd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -837,6 +841,7 @@ GameObject:
   - component: {fileID: 2011273896}
   - component: {fileID: 2011273892}
   - component: {fileID: 2011273891}
+  - component: {fileID: 2011273897}
   - component: {fileID: 2011273889}
   - component: {fileID: 2011273888}
   m_Layer: 3
@@ -846,6 +851,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &841813073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 841813074}
+  m_Layer: 3
+  m_Name: FeetTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &841813074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841813073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.233, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2011273886}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &893427217
 GameObject:
   m_ObjectHideFlags: 0
@@ -7565,6 +7601,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2076065032}
+  - {fileID: 841813074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2011273888
@@ -7725,8 +7762,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac92c8116167b104b829fceb3bfadda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _feetTransform: {fileID: 841813074}
+  _groundCheck: {x: 1.21, y: 0.13}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   _moveSpeed: 12
   _jumpStrength: 10
+--- !u!70 &2011273897
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817729410}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00743197, y: -1.1245996}
+  m_Size: {x: 1.2502958, y: 0.27507547}
+  m_Direction: 1
 --- !u!1 &2043640393
 GameObject:
   m_ObjectHideFlags: 0
@@ -7926,6 +8003,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pipe (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6917474411122021371, guid: 0d64b30c2f7eb114ebc7b8386238bbcd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7991,6 +8072,10 @@ PrefabInstance:
     - target: {fileID: 6917474411122021371, guid: 0d64b30c2f7eb114ebc7b8386238bbcd, type: 3}
       propertyPath: m_Name
       value: Pipe
+      objectReference: {fileID: 0}
+    - target: {fileID: 6917474411122021371, guid: 0d64b30c2f7eb114ebc7b8386238bbcd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
