@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpStrength = 7f;
 
-    private bool _isGrounded = false;
+    private PlayerInput _playerInput;
+    private FrameInput _frameInput;
+
     private Vector2 _movement;
 
     private Rigidbody2D _rigidBody;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
         if (Instance == null) { Instance = this; }
 
         _rigidBody = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
@@ -53,17 +56,18 @@ public class PlayerController : MonoBehaviour
 
     private void GatherInput()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        _movement = new Vector2(moveX * _moveSpeed, _rigidBody.velocity.y);
+        _frameInput = _playerInput.FrameInput;
+        _movement = new Vector2(_frameInput.Move.x * _moveSpeed, _rigidBody.velocity.y);
     }
 
     private void Move() {
 
-        _rigidBody.velocity = _movement;
+        _rigidBody.velocity = new Vector2(_movement.x, _rigidBody.velocity.y);
     }
 
     private void Jump()
     {
+        if (!_frameInput.Jump) { return; }
         if (Input.GetKeyDown(KeyCode.Space) && CheckGrounded()) {
             _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
         }
