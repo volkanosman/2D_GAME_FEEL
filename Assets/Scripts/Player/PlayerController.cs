@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpStrength = 7f;
     [SerializeField] private float _extraGravity = 700f;
     [SerializeField] private float _gravityDelay = .2f;
-
-    private float _timeInAir;
+    [SerializeField] private float _coyoteTime = 0.5f;
+   
+    private float _timeInAir, _coyoteTimer;
     private bool _doubleJumpAvailable;
 
     private PlayerInput _playerInput;
@@ -46,10 +47,12 @@ public class PlayerController : MonoBehaviour
     {
         GatherInput();
         Movement();
-        HandleJump();
-        GravityDelay();
+        CoyoteTimer();
+        HandleJump();        
         HandleSpriteFlip();
+        GravityDelay();
     }
+
     private void FixedUpdate()
     {
         ExtraGravity();//we put this method in fixed update because it is being applied to the rigid body.
@@ -106,21 +109,37 @@ public class PlayerController : MonoBehaviour
     {
         if (!_frameInput.Jump) { return; }
 
-        if (_doubleJumpAvailable)
+        if (CheckGrounded())
+        {
+            
+            OnJump?.Invoke();
+        } else if (_coyoteTimer > .0f)
+        {
+            OnJump?.Invoke();
+        }
+        else if (_doubleJumpAvailable) 
         {
             _doubleJumpAvailable = false;
             OnJump?.Invoke();
-        } else if (CheckGrounded()) 
-        {
-            _doubleJumpAvailable = true;
-            OnJump?.Invoke();
         }
     }
-
+    private void CoyoteTimer()
+    {
+        if (CheckGrounded())
+        {
+            _coyoteTimer = _coyoteTime;
+            _doubleJumpAvailable = true;
+        }
+        else
+        {
+            _coyoteTimer -= Time.deltaTime;
+        }
+    }
     private void ApplyJumpForce()
     {
         _rigidBody.velocity = Vector2.zero;
         _timeInAir = 0f;
+        _coyoteTime = 0f;
         _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
     }
 
