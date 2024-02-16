@@ -9,33 +9,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _feetTransform;
     [SerializeField] private Vector2 _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float _moveSpeed = 5f;
+    
     [SerializeField] private float _jumpStrength = 7f;
 
     private PlayerInput _playerInput;
     private FrameInput _frameInput;
 
-    private Vector2 _movement;
-
     private Rigidbody2D _rigidBody;
+    private Movement _movement;
 
     public void Awake() {
         if (Instance == null) { Instance = this; }
 
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
+        _movement = GetComponent<Movement>();
     }
 
     private void Update()
     {
         GatherInput();
+        Movement();
         Jump();
         HandleSpriteFlip();
     }
-
-    private void FixedUpdate() {
-        Move();
-    }   
 
     public bool IsFacingRight()
     {
@@ -56,13 +53,12 @@ public class PlayerController : MonoBehaviour
 
     private void GatherInput()
     {
-        _frameInput = _playerInput.FrameInput;
-        _movement = new Vector2(_frameInput.Move.x * _moveSpeed, _rigidBody.velocity.y);
+        _frameInput = _playerInput.FrameInput;        
     }
 
-    private void Move() {
+    private void Movement() {
 
-        _rigidBody.velocity = new Vector2(_movement.x, _rigidBody.velocity.y);
+        _movement.SetCurrentDirection(_frameInput.Move.x);
     }
 
     private void Jump()
