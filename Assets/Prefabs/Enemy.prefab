@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingHealth: 3
+  _splatterPrefab: {fileID: 5968179509578595585, guid: 9829731f555925245809943a03b960f2, type: 3}
 --- !u!50 &-6445784336495608663
 Rigidbody2D:
   serializedVersion: 4
