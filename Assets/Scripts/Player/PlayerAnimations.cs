@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimations : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _moveDustVFX;
+    [SerializeField] private ParticleSystem _poofDustVFX;
     [SerializeField] private float _tiltAngle = 20f;
     [SerializeField] private float _tiltSpeed = 5f;
     [SerializeField] private float _cowboyHatTiltModifier = 2f;
@@ -16,26 +17,35 @@ public class PlayerAnimations : MonoBehaviour
         DetectMoveDust();
         ApplyTilt();
     }
+    private void OnEnable()
+    {
+        PlayerController.OnJump += PlayPoofDustVFX;
+    }
+    private void OnDisable()
+    {
+        PlayerController.OnJump -= PlayPoofDustVFX;
+    }
+
+    private void PlayPoofDustVFX()
+    {
+        _poofDustVFX.Play();
+    }
 
     private void DetectMoveDust()
     {
         if (PlayerController.Instance.CheckGrounded())
         {
-            if (PlayerController.Instance.CheckGrounded())
+            if (!_moveDustVFX.isPlaying)
             {
-                if (!_moveDustVFX.isPlaying)
-                {
-                    _moveDustVFX.Play();
-                }
+                _moveDustVFX.Play();
             }
-            else
+        }else{
+            if (_moveDustVFX.isPlaying)
             {
-                if (_moveDustVFX.isPlaying)
-                {
-                    _moveDustVFX.Stop();
-                }
+                _moveDustVFX.Stop();
             }
         }
+
     }
 
     private void ApplyTilt()
